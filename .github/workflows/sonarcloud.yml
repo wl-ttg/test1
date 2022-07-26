@@ -29,6 +29,6 @@ jobs:
            
             -Dsonar.projectKey=wl-ttg_test1
             -Dsonar.organization=wl-ttg
-            sonar.sources=.
+            -Dsonar.sources=.
          
             
