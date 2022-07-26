@@ -30,5 +30,6 @@ jobs:
             -Dsonar.projectKey=wl-ttg_test1
             -Dsonar.organization=wl-ttg
             -Dsonar.sources=.
+            -Dsonar.scm.exclusions.disabled=true
          
             
