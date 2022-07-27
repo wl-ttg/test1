@@ -1,0 +1,68 @@
+#!/bin/sh
+##
+ # ===  FUNCTION  ======================================================================
+ #         Name : configure - script
+ #      Created : 2018-12-03 13:48:25 IST
+ #       Author : Sathishkumar D
+ #  Description : This defines "Makefile" configuration options dynamically.
+ # =====================================================================================
+##
+
+debugmode=false
+
+for arg in "$@"; do
+    case "$arg" in
+	    --enable-debug)
+		    debugmode=true;;
+
+	    --disable-debug)
+		    debugmode=false;;
+
+	    --enable-rgcs)
+		    stagingtype=_RGCS_TXNS;;
+
+	    --enable-irgcs)
+		    stagingtype=_IRGCS_TXNS;;
+
+	    --set-sms)
+		    stagingfile=_SMS_TXN_;;
+
+	    --set-dms)
+		    stagingfile=_DMS_TXN_;;
+
+	    --set-petro)
+		    stagingfile=_PETRO_REFUND_TXN_;;
+
+	    --set-creadj)
+		    stagingfile=_CREDIT_ADJUST_;;
+
+	    --help)
+		    echo 'usage: ./configure [options]'
+		    echo 'options:'
+		    echo '  --enable-debug: include debug symbols'
+		    echo '  --disable-debug: do not include debug symbols'
+		    echo '  --enable-rgcs: include RGCS mode'
+		    echo '  --enable-irgcs: include iRGCS mode'
+		    echo '  --set-sms: set SMS type'
+		    echo '  --set-dms: set DMS type'
+		    echo '  --set-petro: set PETRO type'
+		    echo '  --set-creadj: set CREADJ type'
+		    echo 'all invalid options are silently ignored'
+		    exit 0
+		    ;;
+    esac
+done
+
+>Makefile
+echo 'Generating makefile ...'
+if $debugmode; then
+    echo 'MODE=DEBUG' >>Makefile
+fi
+
+if [[ "$stagingtype" && "$stagingfile" ]]; then
+	echo "STAGINGTYPE=$stagingtype" >>Makefile
+	echo "STAGINGFILE=$stagingfile" >>Makefile
+fi
+
+cat Makefile.in >>Makefile
+echo 'configuration complete, type make to build.'
