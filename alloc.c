@@ -87,4 +87,4 @@ void hi_free(void *ptr) {
     hiredisAllocFns.freeFn(ptr);
 }
 
-##endif
+#endif
