@@ -22,10 +22,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Install Clang and LLVM (including llvm-cov)
-        uses: KyleMayes/install-llvm-action@v1
-        with:
-          version: "13.0"
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
@@ -52,7 +48,10 @@ jobs:
           mkdir build
           cmake -S . -B build
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
-              env:
+      - name: Run sonar-scanner
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
-          
+        run: |
+          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+
