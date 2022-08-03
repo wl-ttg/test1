@@ -7,7 +7,7 @@ OPTION(ENABLE_ASYNC_TESTS "Should we run all asynchronous API tests" OFF)
 
 MACRO(getVersionBit name)
   SET(VERSION_REGEX "^#define ${name} (.+)$")
-  FILE(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/hiredis.h"
+  FILE(STRINGS "${src}/hiredis.h"
     VERSION_BIT REGEX ${VERSION_REGEX})
   STRING(REGEX REPLACE ${VERSION_REGEX} "\\1" ${name} "${VERSION_BIT}")
 ENDMACRO(getVersionBit)
